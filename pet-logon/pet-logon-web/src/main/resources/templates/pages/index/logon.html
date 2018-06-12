@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form action="../account/logon" th:object="${account}" method="post">
+        用户名:<input th:field="*{accountId}" type="text" />
+        <br>
+        密码:<input th:field="*{accountPassword}" type="password" />
+        <br>
+        <input type="submit" th:value="登录" />
+    </form>
+</body>
+</html>

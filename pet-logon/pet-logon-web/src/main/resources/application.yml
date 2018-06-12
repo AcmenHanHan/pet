@@ -1,0 +1,124 @@
+#***************生产配置*******************
+#应用端口号
+server:
+  port: 8080
+spring:
+  application:
+    #应用名称
+    name: pet
+  mvc:
+    #设置静态资源的请求路径
+    static-path-pattern: /static/**
+  resources:
+    #指定静态资源的路径
+    static-locations: classpath:/static/
+
+#http请求的字符串编码
+  http:
+    encoding:
+      charset: UTF-8
+  thymeleaf:
+    #配置在使用Thymeleaf做页面模板时的前缀，即页面所在路径
+    prefix: classpath:/templates/pages/
+    #设置在使用Thymeleaf做页面模板时的后缀
+    suffix: .html
+    #设置在使用Thymeleaf做页面模板时是否启用缓存
+    cache: false
+
+
+#数据源连接池的配置信息
+  datasource:
+    #type= org.apache.commons.dbcp2.BasicDataSource
+    type: com.alibaba.druid.pool.DruidDataSource
+    #url: jdbc:oracle:thin:@192.168.0.222:1521/orcl
+    #url: jdbc:oracle:thin:@172.18.72.222:1521/orcl
+    url: jdbc:mysql://172.18.72.204:3306/pet_logon
+    username: pet
+    password: pet
+    #数据源驱动
+    #driverClass: oracle.jdbc.driver.OracleDriver
+
+
+  jpa:
+    #自动更新
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      use-new-id-generator-mappings: true
+
+# REDIS (RedisProperties)
+# Redis数据库索引（默认为0）
+  redis:
+    #database:0
+    # Redis服务器地址
+    #host:192.168.1.223
+    # Redis服务器连接端口
+    #port:6379
+    url: redis://:pet@172.18.100.202:6379/0
+    #url: redis://:pet@172.18.72.202:6379/0
+    # Redis服务器连接密码（默认为空）
+    #password：pet
+    # 连接超时时间（毫秒）
+    timeout: 1000ms
+    jedis:
+      pool:
+        # 连接池最大连接数（使用负值表示没有限制）
+        max-active: 8
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: 500ms
+        # 连接池中的最大空闲连接
+        max-idle: 8
+        # 连接池中的最小空闲连接
+        min-idle: 0
+  #cache:
+    #cache-names:  user
+    #caffeine:
+      #spec: initialCapacity=50, maximumSize=500, expireAfterWrite=10s, refreshAfterWrite=5s
+      #initialCapacity=[integer]: 初始的缓存空间大小
+      #maximumSize=[long]: 缓存的最大条数
+      #maximumWeight=[long]: 缓存的最大权重
+      #expireAfterAccess=[duration]: 最后一次写入或访问后经过固定时间过期
+      #expireAfterWrite=[duration]: 最后一次写入后经过固定时间过期
+      #refreshAfterWrite=[duration]: 创建缓存或者最近一次更新缓存后经过固定的时间间隔，刷新缓存
+      #weakKeys: 打开key的弱引用
+      #weakValues：打开value的弱引用
+      #softValues：打开value的软引用
+      #recordStats：开发统计功能
+
+#app设置相关参数
+app:
+  redisEnabled: true
+
+redis-cache:
+  enableTransaction: false
+  # unit is seconds
+  redisDefaultCacheConfiguration:
+    enableExpire: true
+    expireTimeSecond: 10
+    usePrefix: true
+    prefixStr: redis-cache-
+    enableNullValues: false
+
+
+  redisCacheConfigurationsWithName:
+    - name: account
+      enableExpire: true
+      expireTimeSecond: 10
+      usePrefix: true
+      prefixStr: redis-cache-
+      enableNullValues: false
+
+    - name: common
+      enableExpire: true
+      expireTimeSecond: 100
+      usePrefix: true
+      prefixStr: redis-cache-
+      enableNullValues: false
+
+
+
+#**************开发配置项******************
+#改动验证文件
+  devtools:
+    restart:
+      trigger-file: trigger.text
